@@ -15,4 +15,6 @@ router.route('/:slug/admission').get(verifyStates, statesController.getAdmission
 router.route('/:slug/population').get(verifyStates, statesController.getPopulation)
 router.route('/:slug/nickname').get(verifyStates, statesController.getNickname)
 
+router.route('/:slug/funfact')
+    .post(verifyStates, statesController.addFunFact);
 module.exports = router;
