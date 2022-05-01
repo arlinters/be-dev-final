@@ -8,7 +8,8 @@ const getAllStates = (req, res) => {
 }
 
 const getBySlug = (req, res) => {
-	res.json(res.locals.state[0]);
+	// Return JSON response where the code === req.code
+	res.json(data.states.find(x => x.code === req.code));
 	// res.json(result[0]);
 }
 

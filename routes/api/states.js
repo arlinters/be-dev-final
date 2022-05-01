@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const statesController = require('../../controllers/statesController');
-const {getStateFromSlug} = require('../../middleware/validateState');
+const {verifyStates} = require('../../middleware/verifyStates');
 
 router.route('/')
     .get(statesController.getAllStates)
@@ -10,6 +10,6 @@ router.route('/')
     // .delete(verifyRoles(ROLES_LIST.Admin), employeesController.deleteEmployee);
 
 // router.use()
-router.route('/:slug').get(getStateFromSlug, statesController.getBySlug);
+router.route('/:slug').get(verifyStates, statesController.getBySlug);
 
 module.exports = router;
