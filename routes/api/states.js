@@ -10,7 +10,7 @@ router.route('/')
     // .delete(verifyRoles(ROLES_LIST.Admin), employeesController.deleteEmployee);
 
 router.route('/:slug').get(verifyStates, statesController.getBySlug);
-router.route('/:slug/capitol').get(verifyStates, statesController.getCapital)
+router.route('/:slug/capital').get(verifyStates, statesController.getCapital)
 router.route('/:slug/admission').get(verifyStates, statesController.getAdmission)
 router.route('/:slug/population').get(verifyStates, statesController.getPopulation)
 router.route('/:slug/nickname').get(verifyStates, statesController.getNickname)
