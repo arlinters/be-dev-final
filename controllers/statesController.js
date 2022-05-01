@@ -8,10 +8,8 @@ const getAllStates = (req, res) => {
 }
 
 const getBySlug = (req, res) => {
-	const result = data.states.filter(obj => {
-		return obj.slug === req.params.slug
-	})
-	res.json(result[0]);
+	res.json(res.locals.state[0]);
+	// res.json(result[0]);
 }
 
 module.exports = {
