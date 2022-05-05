@@ -10,12 +10,12 @@ router.route('/')
     // .delete(verifyRoles(ROLES_LIST.Admin), employeesController.deleteEmployee);
 
 router.route('/:code').get(verifyStates, statesController.getBySlug);
-router.route('/:slug/capital').get(verifyStates, statesController.getCapital)
-router.route('/:slug/admission').get(verifyStates, statesController.getAdmission)
-router.route('/:slug/population').get(verifyStates, statesController.getPopulation)
-router.route('/:slug/nickname').get(verifyStates, statesController.getNickname)
+router.route('/:code/capital').get(verifyStates, statesController.getCapital)
+router.route('/:code/admission').get(verifyStates, statesController.getAdmission)
+router.route('/:code/population').get(verifyStates, statesController.getPopulation)
+router.route('/:code/nickname').get(verifyStates, statesController.getNickname)
 
-router.route('/:slug/funfact')
+router.route('/:code/funfact')
     .get(verifyStates, statesController.getFunFact)
     .post(verifyStates, statesController.addFunFact);
 module.exports = router;

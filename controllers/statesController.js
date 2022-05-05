@@ -113,6 +113,23 @@ const addFunFact = (req, res) => {
 
 const getFunFact = (req, res) => {
 
+	FunFact.findById({_id: req.code}, function (err, doc){
+		if(err){
+			console.log(err)
+		}
+		else{
+			if(doc === null){
+				res.json({'Message':'No fun facts found'})
+			}
+			else{
+				// Document is not null, get a "random" value from 0 to count
+				const count = doc.funfacts.length;
+				const random = Math.floor(Math.random() * count); 
+				res.json({'funfact':doc.funfacts[random]});
+			}
+		}
+	});
+
 }
 module.exports = {
 	getAllStates,
