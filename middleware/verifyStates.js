@@ -4,7 +4,7 @@ const data = {
 
 function verifyStates(req,res, next){
 	data.states.filter(obj => {
-		if(obj.slug === req.params.slug){
+		if(obj.code === req.params.code){
 			req.code =  obj.code;
 		}
 	})

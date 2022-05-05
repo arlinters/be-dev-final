@@ -110,6 +110,10 @@ const addFunFact = (req, res) => {
 
 	res.json({"Message":"end of function"})
 }
+
+const getFunFact = (req, res) => {
+
+}
 module.exports = {
 	getAllStates,
 	getBySlug,
@@ -117,5 +121,6 @@ module.exports = {
 	getAdmission,
 	getPopulation,
 	getNickname,
-	addFunFact
+	addFunFact,
+	getFunFact
 }
