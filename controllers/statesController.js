@@ -4,10 +4,6 @@ const data = {
 	setStates: function(data){this.states = data}
 }
 
-const isContiguious = (state) => {
-	return !['AK', 'HI'].includes(state.code)
-}
-
 const getAllStates = (req, res) => {
 	if(req.query.hasOwnProperty('contig')){
 		 let output;
@@ -22,8 +18,7 @@ const getAllStates = (req, res) => {
 			}
 			else{
 				return res.json({'message':'Unexpected value passed with contig query.'})
-			}
-			
+			}		
 
 		res.json(output);
 
