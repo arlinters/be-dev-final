@@ -4,8 +4,33 @@ const data = {
 	setStates: function(data){this.states = data}
 }
 
+const isContiguious = (state) => {
+	return !['AK', 'HI'].includes(state.code)
+}
+
 const getAllStates = (req, res) => {
-	res.json(data.states);
+	if(req.query.hasOwnProperty('contig')){
+		 let output;
+			if(req.query.contig === 'true'){
+				output = data.states.filter((state) => {
+					return !['AK', 'HI'].includes(state.code)
+				}) 
+			}
+			else if(req.query.contig === 'false'){
+				output = data.states.filter((state) => {
+				return ['AK', 'HI'].includes(state.code)})
+			}
+			else{
+				return res.json({'message':'Unexpected value passed with contig query.'})
+			}
+			
+
+		res.json(output);
+
+	}
+	else{
+		res.json(data.states);
+	}
 }
 
 const getBySlug = (req, res) => {
