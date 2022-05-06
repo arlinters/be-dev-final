@@ -3,12 +3,7 @@ const router = express.Router();
 const statesController = require('../../controllers/statesController');
 const {verifyStates} = require('../../middleware/verifyStates');
 
-router.route('/')
-    .get(statesController.getAllStates)
-    // .post(verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor), employeesController.createNewEmployee)
-    // .put(verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor), employeesController.updateEmployee)
-    // .delete(verifyRoles(ROLES_LIST.Admin), employeesController.deleteEmployee);
-
+router.route('/').get(statesController.getAllStates)
 router.route('/:code').get(verifyStates, statesController.getBySlug);
 router.route('/:code/capital').get(verifyStates, statesController.getCapital)
 router.route('/:code/admission').get(verifyStates, statesController.getAdmission)

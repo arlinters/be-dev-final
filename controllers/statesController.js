@@ -1,37 +1,67 @@
 const FunFact = require('../model/funfacts');
+
 const data = {
 	states: require('../model/states.json'),
 	setStates: function(data){this.states = data}
 }
 
-const getAllStates = (req, res) => {
-	if(req.query.hasOwnProperty('contig')){
-		 let output;
-			if(req.query.contig === 'true'){
-				output = data.states.filter((state) => {
-					return !['AK', 'HI'].includes(state.code)
-				}) 
-			}
-			else if(req.query.contig === 'false'){
-				output = data.states.filter((state) => {
-				return ['AK', 'HI'].includes(state.code)})
-			}
-			else{
-				return res.json({'message':'Unexpected value passed with contig query.'})
-			}		
-
-		res.json(output);
-
-	}
-	else{
-		res.json(data.states);
-	}
+function getAllFunFacts(filter = {}){
+	return FunFact.find(filter);
 }
 
-const getBySlug = (req, res) => {
+async function getAllStates(req, res){
+		await FunFact.find().then(stateFunFacts => {
+			const outputObj = []
+	
+			data.states.forEach(state => {
+				const matchingFunFacts = stateFunFacts.filter(s => s._id === state.code)[0]
+				if(matchingFunFacts){
+					outputObj.push({
+						...state,
+						funfacts: matchingFunFacts.funfacts
+					})
+				}
+				else{
+					outputObj.push(state);
+				}
+			})
+			if(req.query.hasOwnProperty('contig')){
+				let output;
+				 if(req.query.contig === 'true'){
+					 output = outputObj.filter((state) => {
+						 return !['AK', 'HI'].includes(state.code)
+					 }) 
+				 }
+				 else if(req.query.contig === 'false'){
+					 output = outputObj.filter((state) => {
+					 return ['AK', 'HI'].includes(state.code)})
+				 }
+				 else{
+					 return res.json({'message':'Unexpected value passed with contig query.'})
+				 }		
+	 
+			 res.json(output);
+	 
+		 }
+		 else{
+			 res.json(outputObj);
+		 }
+		});	
+}
+
+async function getBySlug(req, res){
 	// Return JSON response where the code === req.code
-	res.json(data.states.find(x => x.code === req.code));
-	// res.json(result[0]);
+	let state = data.states.find(x => x.code === req.code);
+	await FunFact.findById({_id: req.code}).then(stateFunFacts => {
+		if(stateFunFacts !== null){
+			state = {
+				...state,
+				funfacts: stateFunFacts.funfacts
+			}
+		}
+		res.json(state);
+	});
+		
 }
 
 const getCapital= (req, res) => {
@@ -108,7 +138,7 @@ const addFunFact = (req, res) => {
 	})
 	
 
-	res.json({"Message":"end of function"})
+	res.json("The result received from MongoDB")
 }
 
 const getFunFact = (req, res) => {
