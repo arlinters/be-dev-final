@@ -206,12 +206,12 @@ const removeFunFact = (req, res) => {
 
 
 	FunFact.findOne({stateCode: req.code}, function (err, doc){
+		const result = data.states.find(x => x.code === req.code);
 		if(err){
 			console.log(err)
 		}
 		else{
 			if(doc === null){
-				const result = data.states.find(x => x.code === req.code);
 				res.json({'message':`No Fun Facts found for ${result.state}`})
 			}
 			else{
@@ -219,6 +219,9 @@ const removeFunFact = (req, res) => {
 					doc.funfacts.splice(req.body.index-1, 1);
 					doc.save();
 					res.json(doc)
+				}
+				else{
+					res.json({'message':`No Fun Fact found at that index for ${result.state}`})
 				}
 			}
 		}
