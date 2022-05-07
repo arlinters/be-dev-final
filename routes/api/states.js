@@ -12,5 +12,6 @@ router.route('/:code/nickname').get(verifyStates, statesController.getNickname)
 
 router.route('/:code/funfact')
     .get(verifyStates, statesController.getFunFact)
+    .patch(verifyStates, statesController.patchFunFact)
     .post(verifyStates, statesController.addFunFact);
 module.exports = router;

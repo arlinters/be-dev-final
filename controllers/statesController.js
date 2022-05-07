@@ -134,7 +134,7 @@ const addFunFact = (req, res) => {
 					]
 				doc.save();
 			}
-				res.json({funfacts: req.body.funfacts})
+				res.json(doc)
 		}
 	})
 	
@@ -161,6 +161,44 @@ const getFunFact = (req, res) => {
 	});
 
 }
+
+
+const patchFunFact = (req, res) => {
+	if(!req.body.hasOwnProperty('index')){
+		return res.json({"message":"State fun fact index value required"})
+	}
+	if(!req.body.hasOwnProperty('funfact')){
+		return res.json({"message":"State fun fact value required"})
+	}
+	if(typeof(req.body.funfact) !== 'string'){
+		return res.json({"message":"State fun fact value required"})
+	}
+
+
+	FunFact.findOne({stateCode: req.code}, function (err, doc){
+		if(err){
+			console.log(err)
+		}
+		else{
+			if(doc === null){
+				const result = data.states.find(x => x.code === req.code);
+				res.json({'message':`No Fun Facts found for ${result.state}`})
+			}
+			else{
+				// Document is not null, get a "random" value from 0 to count
+
+				const facts = doc.funfacts;
+				if(facts[req.body.index-1] !== undefined){
+					facts[req.body.index-1] = req.body.funfact
+					doc.funfacts = facts;
+					doc.save();
+					res.json(doc)
+				}
+			}
+		}
+	});
+}
+
 module.exports = {
 	getAllStates,
 	getBySlug,
@@ -169,5 +207,6 @@ module.exports = {
 	getPopulation,
 	getNickname,
 	addFunFact,
-	getFunFact
+	getFunFact,
+	patchFunFact
 }
