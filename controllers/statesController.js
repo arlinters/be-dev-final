@@ -102,12 +102,12 @@ const addFunFact = (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
 	if(!req.body.hasOwnProperty('funfacts')){
 		return res.json({
-			"error":"The property 'funfacts' was not on the submission."
+			"message":"State fun facts value required"
 		})
 	}
 	if(!Array.isArray(req.body.funfacts)){
 		return res.json({
-			"error":"funfact submission was not an Array. Please submit as an array."
+			"message":"State fun facts value must be an array"
 		})
 	}
 
