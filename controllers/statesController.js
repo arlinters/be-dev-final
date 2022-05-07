@@ -199,6 +199,32 @@ const patchFunFact = (req, res) => {
 	});
 }
 
+const removeFunFact = (req, res) => {
+	if(!req.body.hasOwnProperty('index')){
+		return res.json({"message":"State fun fact index value required"})
+	}
+
+
+	FunFact.findOne({stateCode: req.code}, function (err, doc){
+		if(err){
+			console.log(err)
+		}
+		else{
+			if(doc === null){
+				const result = data.states.find(x => x.code === req.code);
+				res.json({'message':`No Fun Facts found for ${result.state}`})
+			}
+			else{
+				if(doc.funfacts[req.body.index-1] !== undefined){
+					doc.funfacts.splice(req.body.index-1, 1);
+					doc.save();
+					res.json(doc)
+				}
+			}
+		}
+	});
+}
+
 module.exports = {
 	getAllStates,
 	getBySlug,
@@ -208,5 +234,6 @@ module.exports = {
 	getNickname,
 	addFunFact,
 	getFunFact,
-	patchFunFact
+	patchFunFact,
+	removeFunFact
 }

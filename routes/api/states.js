@@ -11,6 +11,7 @@ router.route('/:code/population').get(verifyStates, statesController.getPopulati
 router.route('/:code/nickname').get(verifyStates, statesController.getNickname)
 
 router.route('/:code/funfact')
+    .delete(verifyStates, statesController.removeFunFact)
     .get(verifyStates, statesController.getFunFact)
     .patch(verifyStates, statesController.patchFunFact)
     .post(verifyStates, statesController.addFunFact);
