@@ -1,5 +1,6 @@
 const FunFact = require('../model/State');
 
+// controller state
 const data = {
 	states: require('../model/states.json'),
 	setStates: function(data){this.states = data}
@@ -9,6 +10,7 @@ function getAllFunFacts(filter = {}){
 	return FunFact.find(filter);
 }
 
+// async function, fetch all states and document response to include funfacts in json response
 async function getAllStates(req, res){
 		await FunFact.find().then(stateFunFacts => {
 			const outputObj = []
@@ -49,6 +51,7 @@ async function getAllStates(req, res){
 		});	
 }
 
+// fetch specific state based on stateCode
 async function getBySlug(req, res){
 	// Return JSON response where the code === req.code
 	let state = data.states.find(x => x.code === req.code);
@@ -63,6 +66,7 @@ async function getBySlug(req, res){
 	});
 		
 }
+
 
 const getCapital= (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
@@ -97,19 +101,24 @@ const getNickname = (req, res) => {
 	});
 }
 
-
+// Add funfact to mongoose DB
 const addFunFact = (req, res) => {
-	const result = data.states.find(x => x.code === req.code);
+
+	// If missing required fields, return error responses
 	if(!req.body.hasOwnProperty('funfacts')){
 		return res.json({
 			"message":"State fun facts value required"
 		})
 	}
+
 	if(!Array.isArray(req.body.funfacts)){
 		return res.json({
 			"message":"State fun facts value must be an array"
 		})
 	}
+
+	
+	const result = data.states.find(x => x.code === req.code);
 
 	// Check if the document exists
 	FunFact.findOne({stateCode: result.code}, function (err, doc){
@@ -117,9 +126,8 @@ const addFunFact = (req, res) => {
 			console.log(err)
 		}
 		else{
+			// If there was no document, create and save
 			if(!doc){
-				console.log('nothing found so gonna insert');
-				// Create the new document and save it
 				new FunFact({
 					stateCode: result.code,
 					funfacts: req.body.funfacts
@@ -164,6 +172,7 @@ const getFunFact = (req, res) => {
 
 
 const patchFunFact = (req, res) => {
+	// Check body for properties and return errors if not there
 	if(!req.body.hasOwnProperty('index')){
 		return res.json({"message":"State fun fact index value required"})
 	}
@@ -185,8 +194,9 @@ const patchFunFact = (req, res) => {
 				res.json({'message':`No Fun Facts found for ${result.state}`})
 			}
 			else{
-				// Document is not null, get a "random" value from 0 to count
 
+				// API required that index starts at 1.
+				// We subtract 1 and check array values. If there is a funfact at that index, we update otherwise return error msg
 				const facts = doc.funfacts;
 				if(facts[req.body.index-1] !== undefined){
 					facts[req.body.index-1] = req.body.funfact
@@ -203,6 +213,7 @@ const patchFunFact = (req, res) => {
 }
 
 const removeFunFact = (req, res) => {
+	// Check request body for property
 	if(!req.body.hasOwnProperty('index')){
 		return res.json({"message":"State fun fact index value required"})
 	}
@@ -218,6 +229,8 @@ const removeFunFact = (req, res) => {
 				res.json({'message':`No Fun Facts found for ${result.state}`})
 			}
 			else{
+				// Check funfacts array for requested index
+				// If it is there, splice the array removing that index and save.
 				if(doc.funfacts[req.body.index-1] !== undefined){
 					doc.funfacts.splice(req.body.index-1, 1);
 					doc.save();
