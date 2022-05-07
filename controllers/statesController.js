@@ -100,12 +100,12 @@ const getNickname = (req, res) => {
 
 const addFunFact = (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
-	if(!req.body.hasOwnProperty('funfact')){
+	if(!req.body.hasOwnProperty('funfacts')){
 		return res.json({
-			"error":"The property 'funfact' was not on the submission."
+			"error":"The property 'funfacts' was not on the submission."
 		})
 	}
-	if(!Array.isArray(req.body.funfact)){
+	if(!Array.isArray(req.body.funfacts)){
 		return res.json({
 			"error":"funfact submission was not an Array. Please submit as an array."
 		})
@@ -122,7 +122,7 @@ const addFunFact = (req, res) => {
 				// Create the new document and save it
 				new FunFact({
 					stateCode: result.code,
-					funfacts: req.body.funfact
+					funfacts: req.body.funfacts
 				})
 				.save()
 			}
@@ -130,11 +130,11 @@ const addFunFact = (req, res) => {
 				// Merge the funfacts that exist and those that are on the request
 				doc.funfacts =[
 						...doc.funfacts,
-						...req.body.funfact
+						...req.body.funfacts
 					]
 				doc.save();
 			}
-			res.json("The result received from MongoDB")
+				res.json({funfacts: req.body.funfacts})
 		}
 	})
 	
