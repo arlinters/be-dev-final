@@ -68,8 +68,7 @@ const getCapital= (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
 	res.json({
 		"state": result.state,
-		"capital_city": result.capital_city,
-		"capital_url": result.capital_url
+		"capital": result.capital_city,
 	});
 }
 
@@ -77,8 +76,7 @@ const getAdmission = (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
 	res.json({
 		"state": result.state,
-		"admission_date": result.admission_date,
-		"admission_number": result.admission_number
+		"admitted": result.admission_date,
 	});
 }
 
@@ -87,7 +85,6 @@ const getPopulation = (req, res) => {
 	res.json({
 		"state": result.state,
 		"population": result.population,
-		"population_rank": result.population_rank
 	});
 }
 
