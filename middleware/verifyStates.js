@@ -13,7 +13,7 @@ function verifyStates(req,res, next){
 	req.code === undefined ?
 		res.json(
 			{
-				"Message":"States was not found in our records. Looks like you experienced an oopsie :^)"
+				"Message":"Invalid state abbreviation parameter"
 			}) :
 	next()
 
