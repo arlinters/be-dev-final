@@ -141,14 +141,14 @@ const addFunFact = (req, res) => {
 }
 
 const getFunFact = (req, res) => {
-
 	FunFact.findOne({stateCode: req.code}, function (err, doc){
 		if(err){
 			console.log(err)
 		}
 		else{
 			if(doc === null){
-				res.json({'Message':'No fun facts found'})
+				const result = data.states.find(x => x.code === req.code);
+				res.json({'message':`No Fun Facts found for ${result.state}`})
 			}
 			else{
 				// Document is not null, get a "random" value from 0 to count
