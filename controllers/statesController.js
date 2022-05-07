@@ -67,6 +67,7 @@ async function getBySlug(req, res){
 const getCapital= (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
 	res.json({
+		"state": result.state,
 		"capital_city": result.capital_city,
 		"capital_url": result.capital_url
 	});
@@ -75,6 +76,7 @@ const getCapital= (req, res) => {
 const getAdmission = (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
 	res.json({
+		"state": result.state,
 		"admission_date": result.admission_date,
 		"admission_number": result.admission_number
 	});
@@ -83,6 +85,7 @@ const getAdmission = (req, res) => {
 const getPopulation = (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
 	res.json({
+		"state": result.state,
 		"population": result.population,
 		"population_rank": result.population_rank
 	});
@@ -92,6 +95,7 @@ const getNickname = (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
 	
 	res.json({
+		"state": result.state,
 		"nickname": result.nickname,
 	});
 }
