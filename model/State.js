@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const StateFunFactsSchema = new Schema({
-	slug: String,
-	_id: String,
+	stateCode: String,
 	funfacts: [String],
 });
 

@@ -1,4 +1,4 @@
-const FunFact = require('../model/funfacts');
+const FunFact = require('../model/State');
 
 const data = {
 	states: require('../model/states.json'),
@@ -52,7 +52,7 @@ async function getAllStates(req, res){
 async function getBySlug(req, res){
 	// Return JSON response where the code === req.code
 	let state = data.states.find(x => x.code === req.code);
-	await FunFact.findById({_id: req.code}).then(stateFunFacts => {
+	await FunFact.findOne({'stateCode': req.code}).then(stateFunFacts => {
 		if(stateFunFacts !== null){
 			state = {
 				...state,
@@ -111,17 +111,16 @@ const addFunFact = (req, res) => {
 	}
 
 	// Check if the document exists
-	FunFact.findById({_id: result.code}, function (err, doc){
+	FunFact.findOne({stateCode: result.code}, function (err, doc){
 		if(err){
 			console.log(err)
 		}
 		else{
-			if(doc === null){
+			if(doc.length === 0){
 				console.log('nothing found so gonna insert');
 				// Create the new document and save it
 				new FunFact({
-					slug: result.slug,
-					_id: result.code,
+					stateCode: result.code,
 					funfacts: req.body.funfact
 				}, {_id: result.code})
 				.save()
@@ -143,7 +142,7 @@ const addFunFact = (req, res) => {
 
 const getFunFact = (req, res) => {
 
-	FunFact.findById({_id: req.code}, function (err, doc){
+	FunFact.findOne({stateCode: req.code}, function (err, doc){
 		if(err){
 			console.log(err)
 		}
