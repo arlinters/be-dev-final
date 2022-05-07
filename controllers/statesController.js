@@ -84,7 +84,7 @@ const getPopulation = (req, res) => {
 	const result = data.states.find(x => x.code === req.code);
 	res.json({
 		"state": result.state,
-		"population": result.population,
+		"population": result.population.toLocaleString("en-US"),
 	});
 }
 
