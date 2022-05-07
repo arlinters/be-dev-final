@@ -14,7 +14,7 @@ async function getAllStates(req, res){
 			const outputObj = []
 	
 			data.states.forEach(state => {
-				const matchingFunFacts = stateFunFacts.filter(s => s._id === state.code)[0]
+				const matchingFunFacts = stateFunFacts.filter(s => s.stateCode === state.code)[0]
 				if(matchingFunFacts){
 					outputObj.push({
 						...state,
@@ -116,13 +116,13 @@ const addFunFact = (req, res) => {
 			console.log(err)
 		}
 		else{
-			if(doc.length === 0){
+			if(!doc){
 				console.log('nothing found so gonna insert');
 				// Create the new document and save it
 				new FunFact({
 					stateCode: result.code,
 					funfacts: req.body.funfact
-				}, {_id: result.code})
+				})
 				.save()
 			}
 			else{
@@ -133,11 +133,11 @@ const addFunFact = (req, res) => {
 					]
 				doc.save();
 			}
+			res.json("The result received from MongoDB")
 		}
 	})
 	
 
-	res.json("The result received from MongoDB")
 }
 
 const getFunFact = (req, res) => {
