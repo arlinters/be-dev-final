@@ -11,10 +11,7 @@ function verifyStates(req,res, next){
 
 	// If the code is undefined, return an error. Otherwise continue to next
 	req.code === undefined ?
-		res.json(
-			{
-				"Message":"Invalid state abbreviation parameter"
-			}) :
+		res.json({"message": "Invalid state abbreviation parameter"}) :
 	next()
 
 
